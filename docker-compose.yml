@@ -1,19 +1,12 @@
 services:
   monitor:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: channels-monitor:latest
+    build: 
+      # This is how you "refer to the github link"
+      context: https://github.com/hitenmistry75/channelsdvr_monitor.git#main
     container_name: channels-monitor
     ports:
       - "8000:8000"
     environment:
-      # Set your Channels DVR IP here
       - DVR_IP=192.168.1.100 
-    # Ensures the container restarts if the host reboots or the app crashes
     restart: unless-stopped
-    # Optional: Improves performance for network-heavy log polling
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
