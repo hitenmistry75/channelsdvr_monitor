@@ -1,9 +1,19 @@
 services:
   monitor:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: channels-monitor
     ports:
       - "8000:8000"
     environment:
-      - DVR_IP=192.168.1.100  # <--- Change this
-    restart: always
+      # Set your Channels DVR IP here
+      - DVR_IP=192.168.1.100 
+    # Ensures the container restarts if the host reboots or the app crashes
+    restart: unless-stopped
+    # Optional: Improves performance for network-heavy log polling
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
